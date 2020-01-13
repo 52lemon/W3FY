@@ -18,7 +18,7 @@ func LoggerToFile() gin.HandlerFunc {
 	logFilePath := setting.SysLog_FILE_DIR
 	logFileName := setting.SysLog_FILE_PATH
 	// 日志文件
-	fileName := path.Join(logFilePath, logFileName)
+	fileName := path.Join(dir, logFilePath, logFileName)
 	// 写入文件
 	src, err := os.OpenFile(fileName, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	if err != nil {
@@ -36,7 +36,7 @@ func LoggerToFile() gin.HandlerFunc {
 		fileName+"%Y%m%d.log",
 
 		// 生成软链，指向最新日志文件
-		rotatelogs.WithLinkName(path.Join(dir, fileName)),
+		rotatelogs.WithLinkName(fileName),
 
 		// 设置最大保存时间(7天)
 		rotatelogs.WithMaxAge(7*24*time.Hour),

@@ -33,10 +33,10 @@ func init() {
 	// 设置 rotatelogs
 	logWriter, err := rotatelogs.New(
 		// 分割后的文件名称
-		dir+fileName+"%Y%m%d.log",
+		fileName+"%Y%m%d.log",
 
 		// 生成软链，指向最新日志文件
-		rotatelogs.WithLinkName(fileName),
+		rotatelogs.WithLinkName(path.Join(dir, fileName)),
 
 		// 设置最大保存时间(7天)
 		rotatelogs.WithMaxAge(7*24*time.Hour),

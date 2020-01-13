@@ -1,8 +1,7 @@
-package middleware
+package logging
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
@@ -12,10 +11,11 @@ import (
 	"w3fy/pkg/setting"
 )
 
-//将日志输出到文件中
-func LoggerToFile() gin.HandlerFunc {
+var logger *logrus.Logger
+
+func init() {
 	logFilePath, _ := os.Getwd()
-	logFileName := setting.SysLog_FILE_PATH
+	logFileName := setting.InnerLog_FILE_PATH
 	// 日志文件
 	fileName := path.Join(logFilePath, logFileName)
 	// 写入文件
@@ -24,7 +24,7 @@ func LoggerToFile() gin.HandlerFunc {
 		fmt.Println("err:", err)
 	}
 	// 实例化
-	logger := logrus.New()
+	logger = logrus.New()
 	// 设置输出
 	logger.Out = src
 	// 设置日志级别
@@ -56,38 +56,9 @@ func LoggerToFile() gin.HandlerFunc {
 	})
 	// 新增 Hook
 	logger.AddHook(lfHook)
-	return func(c *gin.Context) {
-		// 开始时间
-		startTime := time.Now()
+}
 
-		// 处理请求
-		c.Next()
-
-		// 结束时间
-		endTime := time.Now()
-
-		// 执行时间
-		latencyTime := endTime.Sub(startTime)
-
-		// 请求方式
-		reqMethod := c.Request.Method
-
-		// 请求路由
-		reqUri := c.Request.RequestURI
-
-		// 状态码
-		statusCode := c.Writer.Status()
-
-		// 请求IP
-		clientIP := c.ClientIP()
-
-		// 日志格式
-		logger.WithFields(logrus.Fields{
-			"status_code":  statusCode,
-			"latency_time": latencyTime,
-			"client_ip":    clientIP,
-			"req_method":   reqMethod,
-			"req_uri":      reqUri,
-		}).Info()
-	}
+//系统出现的error日志记录
+func DebugLog(v ...interface{}) {
+	logger.Debugln(v)
 }

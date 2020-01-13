@@ -1,0 +1,4 @@
+BINARY_NAME = hello
+build:
+    go build -0 $(BINARY_NAME) -v
+    ./$(BINARY_NAME)

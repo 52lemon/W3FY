@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"w3fy/middleware"
+	"w3fy/pkg/logging"
 )
 
 func main() {
@@ -11,6 +12,7 @@ func main() {
 	router := gin.Default()
 	router.Use(middleware.LoggerToFile())
 	router.GET("/ping", func(c *gin.Context) {
+		logging.DebugLog("helloworld")
 		c.String(200, "pong")
 	})
 	router.Run(":8080")

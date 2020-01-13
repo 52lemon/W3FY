@@ -15,7 +15,7 @@ var logger *logrus.Logger
 
 func init() {
 	dir, _ := os.Getwd()
-	logFilePath := dir + setting.InnerLog_FILE_DIR
+	logFilePath := setting.InnerLog_FILE_DIR
 	logFileName := setting.InnerLog_FILE_PATH
 	// 日志文件
 	fileName := path.Join(logFilePath, logFileName)
@@ -33,7 +33,7 @@ func init() {
 	// 设置 rotatelogs
 	logWriter, err := rotatelogs.New(
 		// 分割后的文件名称
-		fileName+"%Y%m%d.log",
+		dir+fileName+"%Y%m%d.log",
 
 		// 生成软链，指向最新日志文件
 		rotatelogs.WithLinkName(fileName),

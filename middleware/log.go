@@ -15,7 +15,7 @@ import (
 //将日志输出到文件中
 func LoggerToFile() gin.HandlerFunc {
 	dir, _ := os.Getwd()
-	logFilePath := dir + setting.SysLog_FILE_DIR
+	logFilePath := setting.SysLog_FILE_DIR
 	logFileName := setting.SysLog_FILE_PATH
 	// 日志文件
 	fileName := path.Join(logFilePath, logFileName)
@@ -33,7 +33,7 @@ func LoggerToFile() gin.HandlerFunc {
 	// 设置 rotatelogs
 	logWriter, err := rotatelogs.New(
 		// 分割后的文件名称
-		fileName+"%Y%m%d.log",
+		dir+fileName+"%Y%m%d.log",
 
 		// 生成软链，指向最新日志文件
 		rotatelogs.WithLinkName(fileName),

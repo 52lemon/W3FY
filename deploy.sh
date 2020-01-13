@@ -8,7 +8,8 @@ git reset --hard origin/master
 
 #构建项目
 make -f MakeFile clean
-make -f MakeFile build
+make -f MakeFile
 
 #启动项目
-./AppName
+./$AppName
+

@@ -1,1 +1,0 @@
-time="2020-01-13T11:17:45+08:00" level=info client_ip=127.0.0.1 latency_time=2.0274663s req_method=GET req_uri=/ping status_code=200

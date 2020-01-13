@@ -14,7 +14,8 @@ import (
 var logger *logrus.Logger
 
 func init() {
-	logFilePath := setting.InnerLog_FILE_DIR
+	dir, _ := os.Getwd()
+	logFilePath := dir + setting.InnerLog_FILE_DIR
 	logFileName := setting.InnerLog_FILE_PATH
 	// 日志文件
 	fileName := path.Join(logFilePath, logFileName)

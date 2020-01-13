@@ -14,7 +14,7 @@ import (
 
 //将日志输出到文件中
 func LoggerToFile() gin.HandlerFunc {
-	logFilePath, _ := os.Getwd()
+	logFilePath := setting.SysLog_FILE_DIR
 	logFileName := setting.SysLog_FILE_PATH
 	// 日志文件
 	fileName := path.Join(logFilePath, logFileName)

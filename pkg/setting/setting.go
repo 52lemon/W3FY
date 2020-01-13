@@ -3,6 +3,7 @@ package setting
 import (
 	"github.com/go-ini/ini"
 	"log"
+	"os"
 )
 
 var (
@@ -30,6 +31,8 @@ var (
 	//log
 	SysLog_FILE_PATH   string
 	InnerLog_FILE_PATH string
+	SysLog_FILE_DIR    string
+	InnerLog_FILE_DIR  string
 
 	//mongo
 	MonHost string
@@ -47,6 +50,23 @@ func init() {
 	LoadDatabase()
 	LoadLog()
 	LogMongo()
+	//检测日志目录是否存在
+	_, err = os.Stat(SysLog_FILE_DIR)
+	if os.IsNotExist(err) {
+		mkdir(SysLog_FILE_DIR)
+	}
+	_, err = os.Stat(InnerLog_FILE_DIR)
+	if os.IsNotExist(err) {
+		mkdir(InnerLog_FILE_DIR)
+	}
+}
+
+func mkdir(path string) {
+	dir, _ := os.Getwd()
+	err := os.MkdirAll(dir+"/"+path, os.ModePerm)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func LoadBase() {
@@ -74,8 +94,10 @@ func LoadDatabase() {
 }
 
 func LoadLog() {
-	SysLog_FILE_PATH = Cfg.Section("log").Key("sysLog_FILE_PATH").MustString("runtime/logs/SystemLogs/")
-	InnerLog_FILE_PATH = Cfg.Section("log").Key("innerLog_FILE_PATH").MustString("runtime/logs/ErrorLogs/")
+	SysLog_FILE_DIR = Cfg.Section("log").Key("sysLog_FILE_DIR").MustString("runtime/logs/SystemLogs")
+	InnerLog_FILE_DIR = Cfg.Section("log").Key("innerLog_FILE_DIR").MustString("runtime/logs/ErrorLogs")
+	SysLog_FILE_PATH = Cfg.Section("log").Key("sysLog_FILE_PATH").MustString("runtime/logs/SystemLogs/syslog")
+	InnerLog_FILE_PATH = Cfg.Section("log").Key("innerLog_FILE_PATH").MustString("runtime/logs/ErrorLogs/errlog")
 }
 
 func LogMongo() {

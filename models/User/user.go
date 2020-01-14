@@ -12,7 +12,7 @@ type User struct {
 	Nickname     string `json:"nickname"`
 	Password     string `json:"-"`
 	Sex          int    `json:"sex"`
-	Email        int    `json:"email"`
+	Email        string `json:"email"`
 	Website      string `json:"website"`
 	Education    string `json:"education"`
 	Collage      string `json:"collage"`

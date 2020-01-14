@@ -26,7 +26,7 @@ func (User) TableName() string {
 	return "users"
 }
 
-//获取用户信息
+//获取用户信息 select * from user where id = ?
 func GetInfo(id int) (user User) {
 	err := models.DB.Debug().Where("id = ?", id).First(&user).Error
 	if err != nil {
@@ -35,7 +35,16 @@ func GetInfo(id int) (user User) {
 	return
 }
 
-//登录
+//用户名注册 insert into user (`username`,`password`) values(xxx,xxx)
+func CreateByPassword(user *User) bool {
+	if models.DB.NewRecord(user) {
+		models.DB.Debug().Create(user)
+		return !models.DB.NewRecord(user)
+	}
+	return false
+}
+
+//登录  select id from user   check user.ID
 func Login(user User) bool {
 	var find User
 	if models.DB.Where(user).Select("id").First(&find); find.ID > 0 {

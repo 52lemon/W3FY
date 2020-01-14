@@ -2,8 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/unknwon/com"
 	"w3fy/middleware"
-	"w3fy/pkg/logging"
+	"w3fy/models/User"
 )
 
 func main() {
@@ -11,9 +12,12 @@ func main() {
 	gin.DisableConsoleColor()
 	router := gin.Default()
 	router.Use(middleware.LoggerToFile())
-	router.GET("/ping", func(c *gin.Context) {
-		logging.DebugLog("helloworld")
-		c.String(200, "pong")
+	router.Use(gin.Recovery())
+	router.GET("/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		user := User.GetInfo(com.StrTo(id).MustInt())
+		c.JSON(200, &user)
+
 	})
 	router.Run(":8080")
 }

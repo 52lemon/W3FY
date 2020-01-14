@@ -21,7 +21,7 @@ type Model struct {
 
 func init() {
 	var err error
-	conn := fmt.Sprintf("%s:%s@%s/%s?charset=utf8&parseTime=True&loc=Local", setting.USER, setting.PASSWORD, setting.HOST, setting.NAME)
+	conn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", setting.USER, setting.PASSWORD, setting.HOST, setting.NAME)
 	DB, err = gorm.Open(setting.TYPE, conn)
 	if err != nil {
 		logging.DebugLog("can't conn mysql,err msg:", err)

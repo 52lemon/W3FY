@@ -21,8 +21,8 @@ func main() {
 
 	})
 	//model测试用例
-	router.GET("/testcase01/:id2", func(c *gin.Context) {
-		id := c.Param("id2")
+	router.GET("/testcase01/:name", func(c *gin.Context) {
+		id := c.Param("name")
 		if Tags.CreateTag(&Tags.Tags{Name: id}) {
 			c.JSON(200, map[string]interface{}{"msg": "success"})
 		} else {
@@ -34,8 +34,8 @@ func main() {
 		tags := Tags.GetTags()
 		c.JSON(200, &tags)
 	})
-	router.GET("/testcase03/:id3", func(c *gin.Context) {
-		id := c.Param("id3")
+	router.GET("/testcase03/:key", func(c *gin.Context) {
+		id := c.Param("key")
 		if Tags.DeleteTag(id) {
 			c.JSON(200, map[string]interface{}{"msg": "success"})
 		} else {

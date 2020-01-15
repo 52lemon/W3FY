@@ -15,6 +15,10 @@ type Topic struct {
 	IsDeleted int    `json:"-"`
 }
 
+func (Topic) TableName() string {
+	return "topic"
+}
+
 //用户创建帖子 成功条件:(1)该帖子为新记录
 // insert into `topic` values(xxx,xxx,xxx,xxx)
 func CreateTopic(topic *Topic) bool {
@@ -37,11 +41,8 @@ func UpdateTopic(topic *Topic, data interface{}) bool {
 //用户删除帖子 成功条件:(1)该帖子存在.(2)该帖子不是在逻辑删除状态
 // select `is_deleted` from topic (if is_deleted==0) update  `topic` set `is_deleted`=0 where `id` =xx
 func DeleteTopic(id int) bool {
-	var find Topic
-	if err := models.DB.Model(find).Where("id=?", id).First(&find).Error; err == nil && find.IsDeleted == 0 {
-		if err = models.DB.Debug().Model(&find).Update("is_deleted", 1).Error; err == nil {
-			return true
-		}
+	if err := models.DB.Debug().Model(Topic{}).Where("id=?", id).Update("is_deleted", 1).Error; err == nil {
+		return true
 	}
 	return false
 }
@@ -62,4 +63,14 @@ func GetTopic() (topics []Topic) {
 		logging.DebugLog(err)
 	}
 	return
+}
+
+//获取帖子的状态,成功条件:(1)传入帖子的id
+//select `is_deleted` from `topic` where(`id`=tid)
+func GetTopicStatus(tid int) int {
+	var find Topic
+	if err := models.DB.Debug().Where("id=?", tid).First(&find); err != nil {
+		logging.DebugLog(err)
+	}
+	return find.IsDeleted
 }

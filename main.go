@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
 	"w3fy/middleware"
+	"w3fy/models/Tags"
 	"w3fy/models/User"
 )
 
@@ -18,6 +19,28 @@ func main() {
 		user := User.GetInfo(com.StrTo(id).MustInt())
 		c.JSON(200, &user)
 
+	})
+	//model测试用例
+	router.GET("/testcase01/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		if Tags.CreateTag(&Tags.Tags{Name: id}) {
+			c.JSON(200, map[string]interface{}{"msg": "success"})
+		} else {
+			c.JSON(500, map[string]interface{}{"msg": "failed"})
+		}
+
+	})
+	router.GET("/testcase02", func(c *gin.Context) {
+		tags := Tags.GetTags()
+		c.JSON(200, &tags)
+	})
+	router.GET("/testcase03/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		if Tags.DeleteTag(id) {
+			c.JSON(200, map[string]interface{}{"msg": "success"})
+		} else {
+			c.JSON(500, map[string]interface{}{"msg": "failed"})
+		}
 	})
 	router.Run(":8080")
 }

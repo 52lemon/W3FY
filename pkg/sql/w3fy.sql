@@ -46,15 +46,16 @@ create table `topic`(
 drop table if exists `comment`;
 create table `comment`(
     `id`         int(11)           not null auto_increment comment '主键',
-    `inv_id`     int(11)           not null comment '帖子id',
+    `top_id`     int(11)           not null comment '帖子id',
     `from_id`    int(11)           not null comment '评论人',
-    `to_id`      int(11)           not null comment '被评论人',
-    `comments`   longtext         not null comment '评论内容',
+    `to_id`      int(11)           not null default 0 comment '被评论人,默认为给题主评论',
+    `comments`   text              not null comment '评论内容',
+    `is_deleted` int(11)          not null comment '逻辑删除帖子,0-否,1-是',
     `created_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
         COMMENT '写入时间',
     `deleted_at`   timestamp      NULL COMMENT '删除时间',
     primary key (`id`),
-    constraint  c2u_id_fk foreign key (`inv_id`) references `topic`(`id`)
+    constraint  c2u_id_fk foreign key (`top_id`) references `topic`(`id`)
 )engine = innodb auto_increment=1 default charset =utf8 comment ='评论表';
 
 -- 粉丝/关注表

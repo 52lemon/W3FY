@@ -14,29 +14,29 @@ func main() {
 	router := gin.Default()
 	router.Use(middleware.LoggerToFile())
 	router.Use(gin.Recovery())
-	router.GET("/:id", func(c *gin.Context) {
+	router.GET("/usertest/:id", func(c *gin.Context) {
 		id := c.Param("id")
 		user := User.GetInfo(com.StrTo(id).MustInt())
 		c.JSON(200, &user)
 
 	})
 	//model测试用例
-	router.GET("/testcase01/:name", func(c *gin.Context) {
-		id := c.Param("name")
-		if Tags.CreateTag(&Tags.Tags{Name: id}) {
+	router.GET("/testcasev1/:name", func(c *gin.Context) {
+		name := c.Param("name")
+		if Tags.CreateTag(&Tags.Tags{Name: name}) {
 			c.JSON(200, map[string]interface{}{"msg": "success"})
 		} else {
 			c.JSON(500, map[string]interface{}{"msg": "failed"})
 		}
 
 	})
-	router.GET("/testcase02", func(c *gin.Context) {
+	router.GET("/testcasev2", func(c *gin.Context) {
 		tags := Tags.GetTags()
 		c.JSON(200, &tags)
 	})
-	router.GET("/testcase03/:key", func(c *gin.Context) {
-		id := c.Param("key")
-		if Tags.DeleteTag(id) {
+	router.GET("/testcasev3/:key", func(c *gin.Context) {
+		key := c.Param("key")
+		if Tags.DeleteTag(key) {
 			c.JSON(200, map[string]interface{}{"msg": "success"})
 		} else {
 			c.JSON(500, map[string]interface{}{"msg": "failed"})

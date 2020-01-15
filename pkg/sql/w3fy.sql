@@ -31,7 +31,8 @@ create table `topic`(
     `tag`      char(10)            not null default '其他' comment '帖子标签',
     `uid`      int(11)             not null comment '发帖人',
     `title`    char(120)           not null comment '帖子标题',
-    `content`  longtext           not null  comment '帖子内容',
+    `content`  text           not null  comment '帖子内容',
+    `is_deleted` tinyint(11)   not null default 0 comment '逻辑删除帖子,0-否,1-是',
     `created_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
         COMMENT '写入时间',
     `updated_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'

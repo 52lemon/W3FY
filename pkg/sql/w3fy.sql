@@ -79,6 +79,8 @@ create table `tags`(
     `name`             char(20)         not null comment '标签名字',
     `created_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
         COMMENT '写入时间',
+    `updated_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
+        COMMENT '更新时间',
     `deleted_at`   timestamp      NULL COMMENT '删除时间',
     primary key (`id`),
     unique (`name`)

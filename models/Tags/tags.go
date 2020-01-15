@@ -6,6 +6,7 @@ import (
 )
 
 type Tags struct {
+	models.Model
 	Name string `json:"name"`
 }
 

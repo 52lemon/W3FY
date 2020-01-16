@@ -12,6 +12,7 @@ func main() {
 	// 禁用控制台颜色, 将日志写入文件时不需要控制台颜色
 	gin.DisableConsoleColor()
 	router := gin.Default()
+	router.Use(middleware.JWT())
 	router.Use(middleware.LoggerToFile())
 	router.Use(gin.Recovery())
 	router.GET("/usertest/:id", func(c *gin.Context) {

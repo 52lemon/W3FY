@@ -47,12 +47,15 @@ drop table if exists `comment`;
 create table `comment`(
     `id`         int(11)           not null auto_increment comment '主键',
     `top_id`     int(11)           not null comment '帖子id',
+    `father_id`  int(11)           not null default 0 comment '层主id,默认为0给题主评论',
     `from_id`    int(11)           not null comment '评论人',
-    `to_id`      int(11)           not null default 0 comment '被评论人,默认为给题主评论',
+    `to_id`      int(11)           not null comment '被评论人,默认为给题主评论',
     `comments`   text              not null comment '评论内容',
     `is_deleted` int(11)          not null comment '逻辑删除帖子,0-否,1-是',
     `created_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
         COMMENT '写入时间',
+    `updated_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
+        COMMENT '更新时间',
     `deleted_at`   timestamp      NULL COMMENT '删除时间',
     primary key (`id`),
     constraint  c2u_id_fk foreign key (`top_id`) references `topic`(`id`)

@@ -5,3 +5,6 @@ this bbs app like v2ex,but it has its uniqueness.
 ## Function
 ![imge](picture/W3FY.png)
 
+## Api
+![imge](picture/W3FYapi.png)
+

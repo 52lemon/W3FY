@@ -1,25 +1,24 @@
 package routes
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"w3fy/controller/api/v1/User"
-	_ "w3fy/docs"
 	"w3fy/middleware"
+	"w3fy/pkg/setting"
 )
 
 func InitRoute() *gin.Engine {
 	gin.DisableConsoleColor()
+	gin.SetMode(setting.RUNMODE)
 	r := gin.New()
-	r.Use(middleware.JWT())
+	//全局中间件
 	r.Use(middleware.LoggerToFile())
+	r.Use(cors.Default())
 	r.Use(gin.Recovery())
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
 	apiv1 := r.Group("/api/v1")
-	{
-		apiv1.GET("ping", func(c *gin.Context) {
+	{ //                             局部中间件
+		apiv1.GET("ping", middleware.JWT(), func(c *gin.Context) {
 			c.JSON(200, gin.H{
 				"msg": "pong",
 			})

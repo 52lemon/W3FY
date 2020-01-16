@@ -8,7 +8,7 @@ create table `users`(
     `sex`         tinyint(1)         not null default 0 comment '性别,0-未知 1-男 2-女',
     `email`       char(100)          not null default '' comment 'email',
     `website`     varchar(255)       not null default '' comment '个人网站',
-    `education`   enum("小学","初中","中专","高中","大专","本科","硕士","博士","其他") not null default '其他',
+    `education`   enum("小学","初中","中专","高中","大专","本科","硕士","博士","其他","") not null default '',
     `collage`     char(100)          not null default '' comment '毕业院校',
     `introduction` char(100)         not null default '' comment '个人简介',
     `github`      varchar(255)       not null default '' comment 'github地址',

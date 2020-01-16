@@ -13,20 +13,6 @@ import (
 	"w3fy/pkg/util"
 )
 
-// Register godoc
-// @Summary Register a account
-// @Description register a account by username&&password
-// @Username get-string
-// @Password get-string
-// @Accept  json
-// @Produce  json
-// @Param id path int true "Account ID"
-// @Success 200 {object} model.Account
-// @Header 200 {string} Token "qwerty"
-// @Failure 400 {object} httputil.HTTPError
-// @Failure 404 {object} httputil.HTTPError
-// @Failure 500 {object} httputil.HTTPError
-// @Router /api/v1/user/register/c1 [post]
 func RegisterByUsername(c *gin.Context) {
 	//定义数据格式
 	data := make(map[string]interface{})

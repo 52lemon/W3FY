@@ -36,7 +36,7 @@ func GetTags() (tags []Tags) {
 //删除节点
 //delete from `tags`  where(`name`=xxx)
 func DeleteTag(name string) bool {
-	if err := models.DB.Debug().Where("name=?", name).Delete(&Tags{}).Error; err != nil {
+	if err := models.DB.Debug().Unscoped().Where("name=?", name).Delete(&Tags{}).Error; err != nil {
 		logging.DebugLog(err)
 		return false
 	}

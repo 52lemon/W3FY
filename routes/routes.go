@@ -27,8 +27,8 @@ func InitRoute() *gin.Engine {
 		})
 		apiv1.POST("/user/register/c1", User.RegisterByUsername)
 		apiv1.GET("/captcha/create", captcha.GetCaptcha)
-		apiv1.GET("/show/:source", captcha.ShowCaptcha)
-		apiv1.GET("/show/:source&reload", captcha.ReloadCaptcha)
+		apiv1.GET("/captcha/show/:source", captcha.ShowCaptcha)
+		apiv1.GET("/captcha/reload/:source", captcha.ReloadCaptcha)
 	}
 	return r
 }

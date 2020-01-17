@@ -20,8 +20,7 @@ create table `users`(
         COMMENT '更新时间',
     `deleted_at`   timestamp      NULL COMMENT '删除时间',
     PRIMARY KEY (`id`),
-    unique (`username`),
-    unique (`email`)
+    unique (`username`)
 )engine =innodb AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 COMMENT ='用户表';
 
 -- 帖子表

@@ -10,6 +10,10 @@ import (
 	"w3fy/pkg/util"
 )
 
+// 用户---->GetCaptcha----(答错)------------->GetCaptcha
+//            |(看不清楚验证码,更换验证码)
+//          ReloadCaptcha---(答错)------------->GetCaptcha
+//缺陷:恶意用户频繁请求GetCaptcha接口会造成服务器短期内存疯涨,需要控制用户请求频率
 //获取验证码
 func GetCaptcha(c *gin.Context) {
 	code := e.INTERNAL_SERVER_ERROR

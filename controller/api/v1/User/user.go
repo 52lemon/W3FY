@@ -23,8 +23,8 @@ func RegisterByUsername(c *gin.Context) {
 	//获取post数据
 	username := c.PostForm("username")
 	password := c.PostForm("password")
-	id, _ := c.Get("id")
-	digits := c.Param("digits")
+	id := c.PostForm("id")
+	digits := c.PostForm("digits")
 
 	//请求数据处理
 	valid := validation.Validation{}
@@ -34,7 +34,7 @@ func RegisterByUsername(c *gin.Context) {
 	valid.Required(password, "password").Message("密码不能为空")
 	valid.MinSize(password, 6, "username").Message("密码过短")
 	valid.MaxSize(password, 20, "username").Message("密码过长")
-	valid.Required(id.(string), "id").Message("验证码id不能为空")
+	valid.Required(id, "id").Message("验证码id不能为空")
 	valid.Required(digits, "digits").Message("验证码不能为空")
 	//若表单验证不成功,处理异常请求
 	if valid.HasErrors() {
@@ -49,7 +49,7 @@ func RegisterByUsername(c *gin.Context) {
 	//若表单验证成功
 	if _, ok := data["error"]; !ok {
 		//验证码校验
-		if captcha.VerifyString(id.(string), digits) {
+		if captcha.VerifyString(id, digits) {
 			//密码md5加密
 			md5Ctx := md5.New()
 			md5Ctx.Write([]byte(password))

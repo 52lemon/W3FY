@@ -1,66 +1,48 @@
 package captcha
 
 import (
+	"fmt"
 	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
 	"time"
 	"w3fy/pkg/e"
 	"w3fy/pkg/logging"
+	"w3fy/pkg/util"
 )
 
 //获取验证码
 func GetCaptcha(c *gin.Context) {
 	code := e.INTERNAL_SERVER_ERROR
 	var msg string
-
+	//验证码长度为4个数字
 	ID := captcha.NewLen(4)
-	c.Set("id", ID) //在上下文中设置变量
-	err := captcha.WriteImage(c.Writer, ID, captcha.StdWidth, captcha.StdHeight)
-	if err != nil {
-		logging.DebugLog(err)
-		msg = "fail to get captcha"
-		c.JSON(code, gin.H{
-			"code": code,
-			"msg":  msg,
-			"data": "",
-		})
-		return
-	}
+
 	code = e.OK
 	msg = "success"
+	png := fmt.Sprintf("%s.png", ID)
 	c.JSON(code, gin.H{
 		"code": code,
 		"msg":  msg,
-		"data": map[string]interface{}{"id": ID, "time": time.Now().Unix()},
+		"data": map[string]interface{}{"png": png, "time": time.Now().Unix()},
 	})
 }
 
-//重载验证码
-func ReloadCaptcha(c *gin.Context) {
-	code := e.INTERNAL_SERVER_ERROR
-	var msg string
+//展示验证码
+func ShowCaptcha(c *gin.Context) {
+	id := util.Ext(c.Param("source"))
+	if err := captcha.WriteImage(c.Writer, id, captcha.StdWidth, captcha.StdHeight); err != nil {
+		logging.DebugLog(err)
+	}
+	return
+}
 
-	ID, isExist := c.Get("id")
-	if isExist {
-		if captcha.Reload(ID.(string)) {
-			err := captcha.WriteImage(c.Writer, ID.(string), captcha.StdWidth, captcha.StdHeight)
-			if err != nil {
-				logging.DebugLog(err)
-			}
-			code = e.OK
-			msg = "success"
-			c.JSON(200, gin.H{
-				"code": code,
-				"msg":  msg,
-				"data": map[string]interface{}{"id": ID.(string), "time": time.Now().Unix()},
-			})
-			return
+////重载验证码
+func ReloadCaptcha(c *gin.Context) {
+	id := util.Ext(c.Param("source"))
+	if captcha.Reload(id) {
+		err := captcha.WriteImage(c.Writer, id, captcha.StdWidth, captcha.StdHeight)
+		if err != nil {
+			logging.DebugLog(err)
 		}
 	}
-	msg = "fail to update captcha"
-	c.JSON(code, gin.H{
-		"code": code,
-		"msg":  msg,
-		"data": "",
-	})
 }

@@ -46,8 +46,8 @@ func Login(user User) bool {
 }
 
 //获取用户信息 select * from user where id = ?
-func GetInfo(id int) (user User) {
-	err := models.DB.Debug().Where("id = ?", id).First(&user).Error
+func GetInfo(id int) (user User, err error) {
+	err = models.DB.Debug().Where("id = ?", id).First(&user).Error
 	if err != nil {
 		logging.DebugLog(err)
 	}

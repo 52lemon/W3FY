@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"w3fy/controller/api/v1/User"
+	"w3fy/controller/api/v1/captcha"
 	"w3fy/middleware"
 	"w3fy/pkg/setting"
 )
@@ -13,6 +14,7 @@ func InitRoute() *gin.Engine {
 	gin.SetMode(setting.RUNMODE)
 	r := gin.New()
 	//全局中间件
+	r.Use(gin.Logger())
 	r.Use(middleware.LoggerToFile())
 	r.Use(cors.Default())
 	r.Use(gin.Recovery())
@@ -24,6 +26,8 @@ func InitRoute() *gin.Engine {
 			})
 		})
 		apiv1.POST("/user/register/c1", User.RegisterByUsername)
+		apiv1.GET("/captcha/create", captcha.GetCaptcha)
+		apiv1.GET("/captcha/update", captcha.ReloadCaptcha)
 	}
 	return r
 }

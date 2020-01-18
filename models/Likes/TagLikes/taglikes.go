@@ -18,8 +18,8 @@ func (TagLikes) TableName() string {
 
 //获取用户收藏的节点
 //select * from `taglikes` where(`uid`=xxx)
-func GetTagLikes(uid int) (tags []TagLikes) {
-	if err := models.DB.Debug().Where("uid=?", uid).Find(&tags).Error; err != nil {
+func GetTagLikes(uid int) (tags []TagLikes, err error) {
+	if err = models.DB.Debug().Where("uid=?", uid).Find(&tags).Error; err != nil {
 		logging.DebugLog(err)
 	}
 	return
@@ -27,7 +27,7 @@ func GetTagLikes(uid int) (tags []TagLikes) {
 
 //添加用户收藏的节点
 //insert into `taglikes` values(xx)
-func CreateTagLikes(likes *TagLikes) bool {
+func CreateTagLikes(likes TagLikes) bool {
 	if models.DB.NewRecord(likes) {
 		models.DB.Debug().Create(&likes)
 		return !models.DB.NewRecord(&likes)

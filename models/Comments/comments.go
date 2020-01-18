@@ -30,8 +30,8 @@ func CreateComment(comment Comment) bool {
 
 //获取某帖子的评论 成功条件(1)帖子存在
 //select * from `comment` where(`top_ic`=xx)
-func GetCommentByTid(tid int) (comments []Comment) {
-	if err := models.DB.Debug().Model(&Comment{}).Where("top_id=?", tid).Find(&comments).Error; err != nil {
+func GetCommentByTid(pageNum int, pageSize int, tid int) (comments []Comment, err error) {
+	if err = models.DB.Debug().Model(&Comment{}).Where("top_id=?", tid).Offset(pageNum).Limit(pageSize).Find(&comments).Error; err != nil {
 		logging.DebugLog(err)
 	}
 	return
@@ -50,7 +50,7 @@ func GetFromId(id int) int {
 //逻辑删除评论  成功条件:(1)删除人id=from_id (2)帖子的is_deleted=0
 // update `comment` set `is_deleted` =1,`comments`="评论已被删除" where(`from_id`=id and select `is_deleted` from `topic` where(`id`=tid) = 0)
 func DeleteComment(id int) bool {
-	if err := models.DB.Debug().Model(&Comment{}).Where("id=?", id).Updates(map[string]interface{}{"is_deleted": 1, "comments": "评论已被删除"}); err != nil {
+	if err := models.DB.Debug().Model(&Comment{}).Where("id=?", id).Updates(map[string]interface{}{"comments": "评论已被删除"}); err != nil {
 		logging.DebugLog(err)
 		return false
 	}

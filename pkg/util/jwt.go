@@ -17,7 +17,7 @@ type Claims struct {
 func GenerateToken(id int) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(3 * time.Hour) //token有效期为3小时
-	user := User.GetInfo(id)
+	user, _ := User.GetInfo(id)
 	claims := Claims{
 		user,
 		jwt.StandardClaims{

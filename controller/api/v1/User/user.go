@@ -127,8 +127,7 @@ func LoginByPassword(c *gin.Context) {
 	valid.MinSize(username, 6, "username").Message("用户名过短")
 	valid.MaxSize(username, 20, "username").Message("用户名过长")
 	valid.Required(password, "password").Message("密码不能为空")
-	valid.MinSize(password, 6, "username").Message("密码过短")
-	valid.MaxSize(password, 20, "username").Message("密码过长")
+	valid.MaxSize(password, 32, "username").Message("密码过长") //md5密码
 	valid.Required(id, "id").Message("验证码id不能为空")
 	valid.Required(digits, "digits").Message("验证码不能为空")
 

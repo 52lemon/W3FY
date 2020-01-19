@@ -36,8 +36,8 @@ func InitRoute() *gin.Engine {
 			user.POST("/register/c1", User.RegisterByUsername)
 			user.POST("/login/c1", User.LoginByPassword)
 
-			apiv1.GET("userinfo", middleware.JWT(), User.GetUserInfo)
-			apiv1.PUT("userinfo", middleware.JWT(), User.UpdateUserInfo)
+			apiv1.GET("/userinfo", middleware.JWT(), User.GetUserInfo)
+			apiv1.PUT("/userinfo", middleware.JWT(), User.UpdateUserInfo)
 		}
 		//验证码api
 		capt := apiv1.Group("/captcha")

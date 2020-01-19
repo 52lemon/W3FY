@@ -9,11 +9,10 @@ import (
 type Topic struct {
 	models.Model
 
-	Tag       string `json:"tag"`
-	Uid       int    `json:"uid"`
-	Title     string `json:"title"`
-	Content   string `json:"content"`
-	IsDeleted int    `json:"-"`
+	Tag     string `json:"tag"`
+	Uid     int    `json:"uid"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
 }
 
 func (Topic) TableName() string {

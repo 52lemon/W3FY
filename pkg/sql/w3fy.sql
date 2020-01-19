@@ -66,6 +66,8 @@ create table `relation`(
     `to_id`      int(11)          not null comment '被关注人',
     `created_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
         COMMENT '写入时间',
+    `updated_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
+        COMMENT '更新时间',
     `deleted_at`   timestamp      NULL COMMENT '删除时间',
     primary key (`id`),
     key (`from_id`),

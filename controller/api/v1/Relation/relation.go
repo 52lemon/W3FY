@@ -41,7 +41,7 @@ func CreateRelation(c *gin.Context) {
 	if _, ok := data["error"]; !ok {
 		//验证用户id的存在
 		_, err := User.GetInfo(com.StrTo(toId).MustInt())
-		if err == nil && userId == com.StrTo(fromId).MustInt() {
+		if err == nil && userId == com.StrTo(fromId).MustInt() && fromId != toId { //不能自己关注自己
 			relation := Relation.Relation{FromId: userId, ToId: com.StrTo(toId).MustInt()}
 			if Relation.CreateRelation(relation) {
 				code = e.CREATED

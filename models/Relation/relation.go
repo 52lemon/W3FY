@@ -13,7 +13,7 @@ type Relation struct {
 }
 
 func (Relation) TableName() string {
-	return "Relation"
+	return "relation"
 }
 
 //获取某用户关注的用户

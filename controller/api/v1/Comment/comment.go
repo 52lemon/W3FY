@@ -106,7 +106,7 @@ func DeleteComment(c *gin.Context) {
 	data := make(map[string]interface{})
 	var msg string
 
-	id := c.Param("id")
+	id := c.Query("id")
 	newId := com.StrTo(id).MustInt()
 	userId := c.MustGet("AuthData").(*util.Claims).User.ID
 

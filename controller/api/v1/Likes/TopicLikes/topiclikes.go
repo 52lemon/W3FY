@@ -72,7 +72,7 @@ func DeleteTopicLike(c *gin.Context) {
 	var msg string
 
 	//获取post数据
-	tid := c.PostForm("tid")
+	tid := c.Query("tid")
 	userId := c.MustGet("AuthData").(*util.Claims).User.ID
 	//验证表单
 	valid := validation.Validation{}

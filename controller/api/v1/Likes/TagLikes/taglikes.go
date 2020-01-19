@@ -68,7 +68,7 @@ func DeleteTagLike(c *gin.Context) {
 	data := make(map[string]interface{})
 	var msg string
 	//获取post数据
-	tname := c.PostForm("tname")
+	tname := c.Query("tname")
 	userId := c.MustGet("AuthData").(*util.Claims).User.ID
 	//验证表单
 	valid := validation.Validation{}

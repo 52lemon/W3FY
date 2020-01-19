@@ -55,17 +55,17 @@ func InitRoute() *gin.Engine {
 			top.GET("/", middleware.JWT(), Topic.GetUserTopics)
 
 			top.GET("/normal", Topic.GetTopics)
-			top.GET("normal/:id", Topic.GetSingleTopic)
+			top.GET("/normal/:id", Topic.GetSingleTopic)
 
 			top.GET("/search/type1", Topic.TagTopics)
 			top.GET("/search/type2", Topic.TitleTopics)
 		}
 		//评论接口
-		comm := apiv1.Group("comment")
+		comm := apiv1.Group("/comment")
 		{
 			comm.GET("/:top_id", middleware.JWT(), Comment.GetComments)
 			comm.POST("/", middleware.JWT(), Comment.CreateComment)
-			comm.DELETE("/:id", middleware.JWT(), Comment.DeleteComment)
+			comm.DELETE("/", middleware.JWT(), Comment.DeleteComment)
 		}
 		//节点收藏接口
 		tag := apiv1.Group("/taglikes")
@@ -87,7 +87,7 @@ func InitRoute() *gin.Engine {
 			rel.POST("/", middleware.JWT(), Relation.CreateRelation)
 			rel.GET("/follow", middleware.JWT(), Relation.GetFollow)
 			rel.GET("/follower", middleware.JWT(), Relation.GetFollower)
-			rel.DELETE("/", middleware.JWT(), Relation.DeleteRelation)
+			rel.POST("/delete", middleware.JWT(), Relation.DeleteRelation)
 		}
 
 	}

@@ -26,11 +26,11 @@ func GetTagLikes(uid int) (tags []TagLikes, err error) {
 //添加用户收藏的节点
 //insert into `taglikes` values(xx)
 func CreateTagLikes(likes TagLikes) bool {
-	if models.DB.NewRecord(likes) {
-		models.DB.Debug().Create(&likes)
-		return !models.DB.NewRecord(&likes)
+	if err := models.DB.Debug().Create(&likes).Error; err != nil {
+		logging.DebugLog(err)
+		return false
 	}
-	return false
+	return true
 }
 
 //删除用户收藏的节点

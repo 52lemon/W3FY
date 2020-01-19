@@ -36,9 +36,9 @@ func DeleteTopicLikes(uid, tid int) bool {
 //添加用户收藏的帖子
 //insert into `topiclikes` values(xxx)
 func CreateTopicLikes(likes TopicLikes) bool {
-	if models.DB.NewRecord(likes) {
-		models.DB.Debug().Create(likes)
-		return !models.DB.NewRecord(likes)
+	if err := models.DB.Debug().Create(likes).Error; err != nil {
+		logging.DebugLog(err)
+		return false
 	}
-	return false
+	return true
 }

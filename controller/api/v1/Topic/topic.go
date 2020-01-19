@@ -106,18 +106,8 @@ func UpdateTopic(c *gin.Context) {
 		//更新数据
 		newid := com.StrTo(id).MustInt()
 		if Topic.GetUidById(newid).Uid == uid {
-			topic, err := Topic.GetTopicById(newid)
-			if err != nil {
-				msg = "服务器异常"
-				c.JSON(code, gin.H{
-					"code": code,
-					"data": data,
-					"msg":  msg,
-				})
-				return
-			}
 			updata := map[string]interface{}{"content": content}
-			if Topic.UpdateTopic(&topic, updata) {
+			if Topic.UpdateTopic(newid, updata) {
 				code = e.OK
 				msg = "请求成功"
 				c.JSON(code, gin.H{

@@ -89,7 +89,6 @@ create table `tags`(
 -- 节点收藏表
 drop table if exists `taglikes`;
 create table `taglikes`(
-    `id`         int(11)           not null auto_increment comment '主键',
     `uid`        int(11)           not null comment '用户id',
     `tname`      char(50)          not null comment '节点名',
     `created_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -97,21 +96,17 @@ create table `taglikes`(
     `updated_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
         COMMENT '更新时间',
     `deleted_at`   timestamp      NULL COMMENT '删除时间',
-    primary key (`id`),
     constraint t2t_id_fk foreign key (`tname`) references `tags`(`name`)
 )engine = innodb auto_increment=1 default charset =utf8 comment '节点收藏表';
 
 -- 帖子收藏表
 drop table if exists `topiclikes`;
 create table `topiclikes`(
-    `id`                int(11)         not null auto_increment comment '主键',
     `uid`               int(11)         not null comment '用户id',
     `tid`               int(11)         not null comment '帖子id',
     `updated_at`   timestamp      NOT NULL DEFAULT '0000-00-00 00:00:00'
         COMMENT '更新时间',
     `deleted_at`   timestamp      NULL COMMENT '删除时间',
-    primary key (`id`),
-    key (`id`),
     constraint l2t_id_fk foreign key (`tid`) references `topic`(`id`)
 )engine = innodb auto_increment=1 default charset = utf8 comment '帖子收藏表';
 

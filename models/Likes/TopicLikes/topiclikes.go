@@ -6,8 +6,6 @@ import (
 )
 
 type TopicLikes struct {
-	models.Model
-
 	Uid int `json:"uid"`
 	Tid int `json:"tid"`
 }
@@ -27,8 +25,8 @@ func GetTopicLikes(uid int) (topic []TopicLikes, err error) {
 
 //删除用户收藏的帖子
 //delete * from `topiclikes` where(`uid`=xx and `tid`=xx)
-func DeleteTopicLikes(likes *TopicLikes) bool {
-	if err := models.DB.Debug().Unscoped().Delete(likes).Error; err != nil {
+func DeleteTopicLikes(uid, tid int) bool {
+	if err := models.DB.Debug().Unscoped().Where(map[string]interface{}{"uid": uid, "tid": tid}).Delete(&TopicLikes{}).Error; err != nil {
 		logging.DebugLog(err)
 		return false
 	}

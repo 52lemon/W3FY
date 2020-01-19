@@ -77,7 +77,7 @@ func InitRoute() *gin.Engine {
 		//帖子收藏接口
 		topl := apiv1.Group("/topiclikes")
 		{
-			topl.POST("/", middleware.JWT(), TopicLikes.GetTopicLikes)
+			topl.POST("/", middleware.JWT(), TopicLikes.CreateTopicTag)
 			topl.DELETE("/", middleware.JWT(), TopicLikes.DeleteTopicLike)
 			topl.GET("/", middleware.JWT(), TopicLikes.GetTopicLikes)
 		}

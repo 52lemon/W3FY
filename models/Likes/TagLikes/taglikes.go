@@ -6,8 +6,6 @@ import (
 )
 
 type TagLikes struct {
-	models.Model
-
 	Uid   int    `json:"uid"`
 	Tname string `json:"tname"`
 }
@@ -37,8 +35,8 @@ func CreateTagLikes(likes TagLikes) bool {
 
 //删除用户收藏的节点
 //delete from `taglikes` where(`uid`=xx,`tname`=xx)
-func DeleteTagLikes(likes *TagLikes) bool {
-	if err := models.DB.Debug().Unscoped().Delete(likes).Error; err != nil {
+func DeleteTagLikes(uid int, tname string) bool {
+	if err := models.DB.Debug().Unscoped().Where(map[string]interface{}{"uid": uid, "tname": tname}).Delete(&TagLikes{}).Error; err != nil {
 		logging.DebugLog(err)
 		return false
 	}

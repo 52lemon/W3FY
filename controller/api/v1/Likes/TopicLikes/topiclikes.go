@@ -91,8 +91,7 @@ func DeleteTopicLike(c *gin.Context) {
 	//若表单数据无误
 	if _, ok := data["error"]; !ok {
 		//删除数据
-		topiclike := TopicLikes.TopicLikes{Uid: userId, Tid: com.StrTo(tid).MustInt()}
-		if TopicLikes.DeleteTopicLikes(&topiclike) {
+		if TopicLikes.DeleteTopicLikes(userId, com.StrTo(tid).MustInt()) {
 			code = e.CREATED
 			msg = "请求成功"
 			c.JSON(code, gin.H{

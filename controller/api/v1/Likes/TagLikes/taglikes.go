@@ -86,8 +86,7 @@ func DeleteTagLike(c *gin.Context) {
 	//若表单数据无误
 	if _, ok := data["error"]; !ok {
 		//删除数据
-		taglike := TagLikes.TagLikes{Uid: userId, Tname: tname}
-		if TagLikes.DeleteTagLikes(&taglike) {
+		if TagLikes.DeleteTagLikes(userId, tname) {
 			code = e.CREATED
 			msg = "请求成功"
 			c.JSON(code, gin.H{

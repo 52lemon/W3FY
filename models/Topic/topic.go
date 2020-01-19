@@ -49,8 +49,8 @@ func CreateTopic(topic *Topic) bool {
 
 //用户修改帖子 成功条件:(1)该帖子存在
 // update `topic` set aa=xx,bb=xx
-func UpdateTopic(topic *Topic, data interface{}) bool {
-	if err := models.DB.Where(topic).Updates(data).Error; err == nil {
+func UpdateTopic(id int, data interface{}) bool {
+	if err := models.DB.Debug().Model(Topic{}).Where("id=?", id).Updates(data).Error; err == nil {
 		return true
 	}
 	return false
